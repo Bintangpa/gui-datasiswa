@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduData — Aplikasi Data Siswa</title>
+<style>
+:root{--primary:#3157c8;--primary-dark:#2444a6;--bg:#f4f6fb;--surface:#fff;--text:#202a3b;--muted:#718096;--line:#e5eaf2;--soft:#edf2ff;--danger:#d64545;--green:#16845b;--shadow:0 8px 28px rgba(28,43,78,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.layout{min-height:100vh;display:grid;grid-template-columns:245px 1fr}.sidebar{background:#182746;color:#fff;padding:28px 18px;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:750;margin:0 8px 42px}.brand-mark{width:38px;height:38px;border-radius:12px;background:#496de0;display:grid;place-items:center;font-size:20px}.nav-label{font-size:10px;letter-spacing:1.5px;color:#9eacc8;margin:0 12px 12px}.nav-item{display:flex;align-items:center;gap:12px;padding:12px 13px;margin:3px 0;border-radius:10px;color:#d3dced;font-size:14px}.nav-item.active{background:#2b3e67;color:white}.nav-icon{width:20px;text-align:center}.side-note{margin-top:auto;border-top:1px solid #344362;padding:18px 8px 0;color:#aebbd1;font-size:12px;line-height:1.6}
+main{min-width:0;padding:30px 38px 50px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}.eyebrow{color:var(--muted);font-size:12px;margin-bottom:5px}.topbar h1{font-size:25px;margin:0;font-weight:750}.user{display:flex;align-items:center;gap:10px;font-size:13px;color:#536078}.avatar{width:36px;height:36px;border-radius:50%;background:#dce5ff;color:var(--primary);display:grid;place-items:center;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}.stat{background:var(--surface);padding:19px 21px;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.stat-top{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.stat-icon{width:32px;height:32px;border-radius:10px;background:var(--soft);display:grid;place-items:center;color:var(--primary);font-size:16px}.stat strong{display:block;font-size:27px;margin-top:10px}.stat small{color:var(--muted);font-size:11px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.panel-head{padding:21px 23px 17px;display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid var(--line)}.panel-head h2{font-size:17px;margin:0 0 5px}.panel-head p{font-size:12px;color:var(--muted);margin:0}.btn{border:0;border-radius:9px;padding:10px 15px;font-size:13px;font-weight:650;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-dark)}.btn-light{background:#f0f3f9;color:#43516a}.btn-danger{background:#fff0f0;color:var(--danger)}.toolbar{padding:16px 22px;display:flex;gap:11px;align-items:center}.search{position:relative;flex:1;max-width:350px}.search input{width:100%;padding:10px 12px 10px 36px;border:1px solid var(--line);border-radius:9px;outline:none}.search span{position:absolute;left:12px;top:9px;color:#8b96a9}.toolbar select{padding:10px;border:1px solid var(--line);border-radius:9px;color:#536078;background:white}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th{text-align:left;padding:12px 22px;background:#fafbfe;color:#8792a6;font-size:10px;letter-spacing:.7px;text-transform:uppercase;font-weight:700}td{padding:14px 22px;border-top:1px solid #edf0f5;font-size:13px}tbody tr:hover{background:#fbfcff}.student{display:flex;align-items:center;gap:10px}.student-avatar{width:34px;height:34px;border-radius:10px;background:#e9edff;color:#455fc0;display:grid;place-items:center;font-weight:700}.student-name{font-weight:650}.student-sub{font-size:11px;color:var(--muted);margin-top:3px}.badge{display:inline-block;background:#edf2ff;color:#3856b3;border-radius:20px;padding:5px 9px;font-size:11px}.actions{display:flex;gap:6px}.icon-btn{border:1px solid var(--line);background:white;color:#66738a;border-radius:7px;padding:6px 9px;font-size:12px}.icon-btn:hover{background:#f2f5fb}.empty{text-align:center;padding:45px 15px;color:var(--muted);font-size:13px}.footer{padding:14px 22px;color:var(--muted);font-size:11px;border-top:1px solid var(--line)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(18,29,52,.48);display:none;align-items:center;justify-content:center;padding:20px;z-index:5}.modal-backdrop.show{display:flex}.modal{width:min(680px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 20px 70px #15213b45}.modal-head{padding:21px 25px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:18px;margin:0}.close{border:0;background:#f1f3f8;border-radius:8px;width:31px;height:31px;font-size:18px;color:#657087}.form{padding:22px 25px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px 18px}.field{min-width:0}.field.full{grid-column:1/-1}label,.legend{display:block;font-size:12px;font-weight:650;margin-bottom:8px;color:#3f4b61}.required{color:var(--danger)}input[type=text],input[type=number],select,textarea{width:100%;border:1px solid #dfe5ef;border-radius:9px;padding:11px 12px;color:var(--text);outline:none;background:#fff;font-size:13px}input:focus,select:focus,textarea:focus{border-color:#8198ed;box-shadow:0 0 0 3px #3157c817}textarea{resize:vertical;min-height:82px}.choice-row{display:flex;gap:18px;flex-wrap:wrap;padding:5px 0}.choice{display:flex;align-items:center;gap:7px;font-size:13px;color:#536078}.choice input{accent-color:var(--primary)}.hint{font-size:10px;color:var(--muted);margin-top:5px}.form-actions{display:flex;justify-content:flex-end;gap:9px;border-top:1px solid var(--line);margin-top:22px;padding-top:17px}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:24px}.detail-item small{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.detail-item strong{font-size:13px;font-weight:600}.toast{position:fixed;right:24px;bottom:24px;background:#1d2d4d;color:white;padding:12px 17px;border-radius:10px;font-size:13px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;z-index:10}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.sidebar{padding:13px 16px;flex-direction:row;align-items:center;justify-content:space-between}.brand{margin:0}.sidebar .nav-label,.sidebar .nav-item,.side-note{display:none}main{padding:22px 16px}.stats{gap:9px}.stat{padding:14px}.stat strong{font-size:22px}.topbar h1{font-size:21px}}
+@media(max-width:520px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.panel-head{align-items:flex-start;flex-direction:column}.toolbar{flex-wrap:wrap}.search{max-width:none;flex-basis:100%}.form-grid,.detail-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.user span{display:none}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">▦</div><span>EduData</span></div>
+  <div class="nav-label">MENU UTAMA</div>
+  <div class="nav-item active"><span class="nav-icon">▤</span> Data Siswa</div>
+  <div class="side-note">Aplikasi Pengelolaan Data Siswa<br>Versi 1.0 · Penyimpanan perangkat</div>
+</aside>
+<main>
+  <header class="topbar">
+    <div><div class="eyebrow">Dashboard / Data Siswa</div><h1>Data Siswa</h1></div>
+    <div class="user"><div class="avatar">AD</div><span>Administrator</span></div>
+  </header>
+  <section class="stats">
+    <div class="stat"><div class="stat-top"><span>Total Siswa</span><span class="stat-icon">♙</span></div><strong id="totalStat">0</strong><small>Seluruh data tersimpan</small></div>
+    <div class="stat"><div class="stat-top"><span>Siswa Laki-laki</span><span class="stat-icon">♂</span></div><strong id="maleStat">0</strong><small>Berdasarkan jenis kelamin</small></div>
+    <div class="stat"><div class="stat-top"><span>Siswa Perempuan</span><span class="stat-icon">♀</span></div><strong id="femaleStat">0</strong><small>Berdasarkan jenis kelamin</small></div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><div><h2>Daftar Siswa</h2><p>Kelola informasi siswa yang terdaftar.</p></div><button class="btn btn-primary" id="addBtn">＋ Tambah Siswa</button></div>
+    <div class="toolbar">
+      <div class="search"><span>⌕</span><input id="searchInput" type="text" placeholder="Cari nama atau NIS..."></div>
+      <select id="classFilter"><option value="">Semua Kelas</option><option>X RPL 1</option><option>X RPL 2</option><option>XI RPL 1</option><option>XI RPL 2</option><option>XII RPL 1</option><option>XII RPL 2</option><option>XII TKJ 1</option><option>XII TKJ 2</option></select>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>Nama Siswa</th><th>NIS</th><th>Kelas</th><th>Jenis Kelamin</th><th>Aksi</th></tr></thead><tbody id="studentRows"></tbody></table><div class="empty" id="emptyState">Belum ada data siswa. Klik “Tambah Siswa” untuk mulai mengisi.</div></div>
+    <div class="footer" id="countInfo">Menampilkan 0 siswa</div>
+  </section>
+</main>
+</div>
+
+<div class="modal-backdrop" id="formModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+ <div class="modal">
+  <div class="modal-head"><h2 id="formTitle">Tambah Data Siswa</h2><button class="close" data-close="formModal" aria-label="Tutup">×</button></div>
+  <form class="form" id="studentForm">
+   <div class="form-grid">
+    <div class="field"><label for="name">Nama Lengkap <span class="required">*</span></label><input id="name" type="text" maxlength="100" placeholder="Masukkan nama siswa" required></div>
+    <div class="field"><label for="nis">NIS <span class="required">*</span></label><input id="nis" type="text" inputmode="numeric" maxlength="20" placeholder="Masukkan nomor induk" required><div class="hint">NIS harus unik dan tidak boleh sama.</div></div>
+    <div class="field"><label for="class">Kelas <span class="required">*</span></label><select id="class" required><option value="">Pilih kelas</option><option>X RPL 1</option><option>X RPL 2</option><option>XI RPL 1</option><option>XI RPL 2</option><option>XII RPL 1</option><option>XII RPL 2</option><option>XII TKJ 1</option><option>XII TKJ 2</option></select></div>
+    <div class="field"><span class="legend">Jenis Kelamin <span class="required">*</span></span><div class="choice-row"><label class="choice"><input type="radio" name="gender" value="Laki-laki" required> Laki-laki</label><label class="choice"><input type="radio" name="gender" value="Perempuan"> Perempuan</label></div></div>
+    <div class="field full"><span class="legend">Hobi</span><div class="choice-row"><label class="choice"><input type="checkbox" name="hobby" value="Membaca"> Membaca</label><label class="choice"><input type="checkbox" name="hobby" value="Olahraga"> Olahraga</label><label class="choice"><input type="checkbox" name="hobby" value="Musik"> Musik</label><label class="choice"><input type="checkbox" name="hobby" value=" menggambar"> Menggambar</label><label class="choice"><input type="checkbox" name="hobby" value="Lainnya"> Lainnya</label></div></div>
+    <div class="field full"><label for="address">Alamat <span class="required">*</span></label><textarea id="address" maxlength="500" placeholder="Masukkan alamat lengkap siswa" required></textarea></div>
+   </div>
+   <div class="form-actions"><button type="button" class="btn btn-light" id="resetBtn">Reset Form</button><button type="button" class="btn btn-light" data-close="formModal">Batal</button><button type="submit" class="btn btn-primary">Simpan Data</button></div>
+  </form>
+ </div>
+</div>
+
+<div class="modal-backdrop" id="detailModal" role="dialog" aria-modal="true">
+ <div class="modal"><div class="modal-head"><h2>Detail Siswa</h2><button class="close" data-close="detailModal">×</button></div><div class="detail-grid" id="detailContent"></div><div class="form-actions" style="padding:0 24px 22px;margin-top:0;border:0"><button class="btn btn-light" data-close="detailModal">Tutup</button></div></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const STORAGE_KEY = 'edudata_students_v1';
+let students = loadStudents();
+let editingId = null;
+const $ = id => document.getElementById(id);
+function loadStudents(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []}catch{return []}}
+function persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(students))}
+function escapeHTML(value=''){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function initials(name){return name.trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()}
+function notify(message){const t=$('toast');t.textContent=message;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function render(){
+ const query=$('searchInput').value.trim().toLowerCase(), cls=$('classFilter').value;
+ const filtered=students.filter(s=>(s.name.toLowerCase().includes(query)||s.nis.toLowerCase().includes(query))&&(!cls||s.className===cls));
+ $('studentRows').innerHTML=filtered.map(s=>`<tr>
+ <td><div class="student"><div class="student-avatar">${escapeHTML(initials(s.name))}</div><div><div class="student-name">${escapeHTML(s.name)}</div><div class="student-sub">${escapeHTML(s.gender)}</div></div></div></td>
+ <td>${escapeHTML(s.nis)}</td><td><span class="badge">${escapeHTML(s.className)}</span></td><td>${escapeHTML(s.gender)}</td>
+ <td><div class="actions"><button class="icon-btn" data-action="detail" data-id="${s.id}" title="Lihat detail">Detail</button><button class="icon-btn" data-action="edit" data-id="${s.id}" title="Edit">Edit</button><button class="icon-btn" data-action="delete" data-id="${s.id}" title="Hapus">Hapus</button></div></td></tr>`).join('');
+ $('emptyState').style.display=filtered.length?'none':'block';
+ $('countInfo').textContent=`Menampilkan ${filtered.length} dari ${students.length} siswa`;
+ $('totalStat').textContent=students.length;
+ $('maleStat').textContent=students.filter(s=>s.gender==='Laki-laki').length;
+ $('femaleStat').textContent=students.filter(s=>s.gender==='Perempuan').length;
+}
+function openForm(student=null){
+ editingId=student?.id??null;$('studentForm').reset();
+ $('formTitle').textContent=student?'Edit Data Siswa':'Tambah Data Siswa';
+ if(student){$('name').value=student.name;$('nis').value=student.nis;$('class').value=student.className;$('address').value=student.address;document.querySelector(`input[name="gender"][value="${CSS.escape(student.gender)}"]`).checked=true;document.querySelectorAll('input[name="hobby"]').forEach(c=>c.checked=student.hobbies.includes(c.value))}
+ $('formModal').classList.add('show');$('name').focus();
+}
+function closeModal(id){$(id).classList.remove('show')}
+$('addBtn').addEventListener('click',()=>openForm());
+$('resetBtn').addEventListener('click',()=>{if(editingId){const s=students.find(x=>x.id===editingId);openForm(s)}else $('studentForm').reset()});
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+document.querySelectorAll('.modal-backdrop').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.show').forEach(m=>closeModal(m.id))});
+$('studentForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const name=$('name').value.trim(),nis=$('nis').value.trim(),className=$('class').value,gender=document.querySelector('input[name="gender"]:checked')?.value,address=$('address').value.trim(),hobbies=[...document.querySelectorAll('input[name="hobby"]:checked')].map(c=>c.value.trim());
+ if(!name||!nis||!className||!gender||!address){notify('Mohon lengkapi semua data wajib.');return}
+ if(students.some(s=>s.nis.toLowerCase()===nis.toLowerCase()&&s.id!==editingId)){$('nis').setCustomValidity('NIS sudah digunakan.');$('nis').reportValidity();$('nis').setCustomValidity('');return}
+ const data={id:editingId??(crypto.randomUUID?crypto.randomUUID():String(Date.now())),name,nis,className,gender,hobbies,address};
+ if(editingId){students=students.map(s=>s.id===editingId?data:s);notify('Data siswa berhasil diperbarui.')}else{students.push(data);notify('Data siswa berhasil disimpan.')}
+ persist();render();closeModal('formModal');
+});
+$('nis').addEventListener('input',e=>e.target.setCustomValidity(''));
+$('searchInput').addEventListener('input',render);$('classFilter').addEventListener('change',render);
+$('studentRows').addEventListener('click',e=>{
+ const b=e.target.closest('button[data-action]');if(!b)return;
+ const s=students.find(x=>x.id===b.dataset.id);if(!s)return;
+ if(b.dataset.action==='edit')openForm(s);
+ if(b.dataset.action==='delete'&&confirm(`Hapus data siswa "${s.name}"?`)){students=students.filter(x=>x.id!==s.id);persist();render();notify('Data siswa berhasil dihapus.')}
+ if(b.dataset.action==='detail'){
+ const items=[['Nama Lengkap',s.name],['NIS',s.nis],['Kelas',s.className],['Jenis Kelamin',s.gender],['Hobi',s.hobbies.length?s.hobbies.join(', '):'Belum diisi'],['Alamat',s.address]];
+ $('detailContent').innerHTML=items.map(([k,v])=>`<div class="detail-item"><small>${k}</small><strong>${escapeHTML(v)}</strong></div>`).join('');$('detailModal').classList.add('show');
+ }
+});
+render();
+</script>
+</body>
+</html>
